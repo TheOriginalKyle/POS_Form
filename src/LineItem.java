@@ -12,11 +12,12 @@ public class LineItem
 
 	public Product getJvzProduct()
 	{
+		
 		// TODO
 		// change null to correct value
 		// Write the code necessary for this method
 
-		return null;
+		return jvzProduct;
 
 	}
 
@@ -24,7 +25,7 @@ public class LineItem
 	{
 		// TODO
 		// Write the code necessary for this method
-
+		this.jvzProduct = jvzProduct;
 	}
 
 	public int getJvzQuantity()
@@ -33,7 +34,7 @@ public class LineItem
 		// change 0 to correct value
 		// Write the code necessary for this method
 
-		return 0;
+		return jvzQuantity;
 
 	}
 
@@ -41,7 +42,7 @@ public class LineItem
 	{
 		// TODO
 		// Write the code necessary for this method
-
+		this.jvzQuantity = jvzQuantity;
 	}
 
 	public double getJvzLineTotal()
@@ -51,8 +52,9 @@ public class LineItem
 		// Write the code necessary for this method
 		// This method returns the total for each line
 		// the total is the quantity x price of the product
+		double total = jvzProduct.getPrice() * jvzQuantity;
 
-		return 0;
+		return total;
 	}
 
 }

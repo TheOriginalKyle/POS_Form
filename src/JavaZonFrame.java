@@ -21,7 +21,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.SwingUtilities;
 
-public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, ItemListener, ChangeListener
+public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, ItemListener
 {
 	private JPanel jPanel1;
 	private JButton btnAdd;
@@ -149,15 +149,12 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 
 			txtQty1 = new JSpinner();
 			jPanel1.add(txtQty1, gc(3, 13, 1, 1));
-			txtQty1.addChangeListener(this);
 
 			txtQty2 = new JSpinner();
 			jPanel1.add(txtQty2, gc(3, 15, 1, 1));
-			txtQty2.addChangeListener(this);
 
 			txtQty3 = new JSpinner();
 			jPanel1.add(txtQty3, gc(3, 17, 1, 1));
-			txtQty3.addChangeListener(this);
 
 			txtPrice1 = new JTextField(10);
 			jPanel1.add(txtPrice1, gc(4, 13, 1, 1));
@@ -334,97 +331,10 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 		{
 			resetForm();
 		}
-
-		if (txtQty1 != null)
+		
+		if(e.getActionCommand() == "List")
 		{
-			System.out.println("Stuff");
-		}
-
-	}
-
-	public void stateChanged(ChangeEvent a)
-	{
-		Object o = a.getSource();
-		if (o == txtQty1)
-		{
-			try
-			{
-				txtQty1.commitEdit();
-			}
-			catch (java.text.ParseException e)
-			{
-				//Ignore Errors user will be asked for a fix later.
-			}
-			int aQty = (Integer) txtQty1.getValue();
-
-			if (cboItem1.getSelectedIndex() != -1)
-			{
-				try
-				{
-					double aPrice = Double.valueOf(menu.getPrice(cboItem1.getSelectedIndex()));
-					String LineTotal = String.valueOf(aPrice * aQty);
-					txtLineTotal1.setText(LineTotal);
-				}
-				catch (Exception e)
-				{
-					//Ignore Errors user will be asked for a fix later.
-				}
-			}
-		}
-		if (o == txtQty2)
-		{
-			try
-			{
-				txtQty2.commitEdit();
-			}
-			catch (java.text.ParseException e)
-			{
-				//Ignore Errors user will be asked for a fix later.
-			}
-			int aQty = (Integer) txtQty2.getValue();
-
-			if (cboItem2.getSelectedIndex() != -1)
-			{
-				try
-				{
-					double aPrice = Double.valueOf(menu.getPrice(cboItem2.getSelectedIndex()));
-					String LineTotal = String.valueOf(aPrice * aQty);
-					txtLineTotal2.setText(LineTotal);
-				}
-				catch (Exception e)
-				{
-					//Ignore Errors user will be asked for a fix later.
-				}
-			}
-
-		}
-		if (o == txtQty3)
-		{
-			try
-			{
-				txtQty3.commitEdit();
-			}
-			catch (java.text.ParseException e)
-			{
-				//Ignore Errors user will be asked for a fix later.
-			}
-			int aQty = (Integer) txtQty3.getValue();
-
-			if (cboItem3.getSelectedIndex() != -1)
-			{
-				try
-				{
-					double aPrice = Double.valueOf(menu.getPrice(cboItem3.getSelectedIndex()));
-					String LineTotal = String.valueOf(aPrice * aQty);
-					txtLineTotal3.setText(LineTotal);
-					
-				}
-				catch (Exception e)
-				{
-					//Ignore Errors user will be asked for a fix later.
-				}
-			}
-
+			printOrders();
 		}
 
 	}
@@ -600,12 +510,11 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 				this.txtLineTotal3.setText(String.valueOf(order.getLineTotal(0)));
 			}
 
-			// do the same for the other 2 comboboxes
-
 			jz.addOrder(order);
 			jz.setClerk(orderID);
 			jz.processOrder(orderID);
-
+			
+			
 			// TODO
 			// INSTEAD OF GET RECEIPT YOU NEED TO GREATE METHODS THAT
 			// WILL RETURN INDIVIDUAL VALUES

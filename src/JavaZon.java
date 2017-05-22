@@ -32,6 +32,8 @@ public class JavaZon
 		// USE THE jvzOrder object and add a new order to the hashmap
 		// you need to use the orderid and the order object (anOrder)
 		// The order id value is located in the order object
+		
+		
 
 	}
 
@@ -91,7 +93,15 @@ public class JavaZon
 		String result = "";
 		Order selectedOrder;
 		Customer selectedCustomer;
-
+		for(int i = 0; i < jvzOrder.size(); i++)
+		{
+			selectedOrder = jvzOrder.get(i);
+			selectedCustomer = selectedOrder.getCustomer();
+			result += "Order ID: " + selectedOrder.getOrderID() + ", ";
+			result += "Customer Name: " + selectedCustomer.getFirstName() + " ";
+			result += selectedCustomer.getLastName() + ", ";
+			result += selectedOrder.getTotal();
+		}
 		// TODO
 		// For Loop through the orders in the HashMap
 		// Retrieve each order and store it in the selectedOrder object
