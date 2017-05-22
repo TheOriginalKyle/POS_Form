@@ -43,6 +43,10 @@ public class Validator
 		{
 			errorMessage += "MemberShip cannot be blank\n";
 		}
+		if(aMemberShip.trim().matches("[a-zA-Z]{2}\\d{4}") == false)
+		{
+			errorMessage += "MemberShip is in invalid Format!\n";
+		}
 		return aMemberShip;
 	}
 	
@@ -51,6 +55,10 @@ public class Validator
 		if(aPhone.length() == 0)
 		{
 			errorMessage += "Phone cannot be blank\n";
+		}
+		if(aPhone.trim().matches("[(]?(\\d{3})[-)\\s]?(\\d{3})[-\\s]?(\\d{4})") == false)
+		{
+			errorMessage += "Phone in inproper format\n";
 		}
 		return aPhone;
 	}
@@ -79,6 +87,10 @@ public class Validator
 		{
 			errorMessage += "State cannot be blank\n";
 		}
+		if(aState.trim().matches("[a-zA-Z]{2}") == false)
+		{
+			errorMessage += "Not a valid State!\n";
+		}
 		return aState;
 	}
 	
@@ -87,6 +99,10 @@ public class Validator
 		if(aZip.length() == 0)
 		{
 			errorMessage += "Zip cannot be blank\n";
+		}
+		if(aZip.trim().matches("\\d{5}") == false)
+		{
+			errorMessage += "Not a valid zip\n";
 		}
 		return aZip;
 	}
