@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.NumberFormat;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -29,13 +31,11 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 	JSpinner txtQty1, txtQty2, txtQty3;
 	private JTextField txtPrice1, txtPrice2, txtPrice3;
 	private JTextField txtLineTotal3, txtLineTotal2, txtLineTotal1;
-	private JLabel jLabel14, jLabel12, jLabel11, jLabel10, jLabel2;
+	private JLabel jLabel12, jLabel11, jLabel10, jLabel2;
 	private JLabel jLabel3, jLabel4, jLabel5, jLabel9;
 	private JLabel jLabel8, jLabel7, jLabel6, jLabel1, jLabel13;
 	private JTextField txtOrderID, txtFirstName, txtLastName, txtPhone, txtMemberShip;
 	private JButton btnReset;
-	private JLabel jLabel15;
-	private JButton btnImport;
 	private JTextField txtStreet, txtCity, txtState, txtZip;
 	private JTextField txtTotal;
 	private JTextField txtTax;
@@ -44,7 +44,6 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 	private JLabel lblTotal;
 	private JLabel lblTax;
 	private JLabel lblSubtotal;
-	private JButton btnExport;
 	private JButton btnClear;
 	private JButton btnList;
 	private JButton btnFind;
@@ -285,7 +284,6 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 
 	public void actionPerformed(ActionEvent e)
 	{
-		System.out.println(e);
 
 		// based on the object that trigerred the event
 		// call the appropriate method
@@ -345,12 +343,11 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 		// based on what item was selected
 
 		Object o = e.getSource();
-		System.out.println(o);
 		if (o == cboItem1)
 		{
 			if (cboItem1.getSelectedIndex() != -1)
 			{
-				txtPrice1.setText(menu.getPrice(cboItem1.getSelectedIndex()));
+				txtPrice1.setText((menu.getPrice(cboItem1.getSelectedIndex())));
 				txtQty1.setValue(1);
 			}
 		}
@@ -368,7 +365,7 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 		{
 			if (cboItem3.getSelectedIndex() != -1)
 			{
-				txtPrice3.setText(menu.getPrice(cboItem3.getSelectedIndex()));
+				txtPrice3.setText((menu.getPrice(cboItem3.getSelectedIndex())));
 				txtQty3.setValue(1);
 			}
 		}
@@ -490,33 +487,69 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 
 			Order order = new Order(orderID);
 			order.setOrderCustomer(customer);
+			NumberFormat nf = NumberFormat.getCurrencyInstance();
 
 			if (this.cboItem1.getSelectedIndex() != -1)
 			{
 				Product product1 = menu.getMenu()[this.cboItem1.getSelectedIndex()];
 				order.setOrderProduct(product1, aQty1);
-				this.txtLineTotal1.setText(String.valueOf(order.getLineTotal(0)));
+				String formatedLineTotal = nf.format(order.getLineTotal(0));
+				this.txtLineTotal1.setText(formatedLineTotal);
 			}
 			if (this.cboItem2.getSelectedIndex() != -1)
 			{
 				Product product2 = menu.getMenu()[this.cboItem2.getSelectedIndex()];
 				order.setOrderProduct(product2, aQty2);
-				this.txtLineTotal2.setText(String.valueOf(order.getLineTotal(1)));
+				if (this.cboItem1.getSelectedIndex() != -1)
+				{
+					String formatedLineTotal = nf.format(order.getLineTotal(1));
+					this.txtLineTotal2.setText(formatedLineTotal);
+				}
+				else
+				{
+					String formatedLineTotal = nf.format(order.getLineTotal(0));
+					this.txtLineTotal2.setText(formatedLineTotal);
+				}
 			}
 			if (this.cboItem3.getSelectedIndex() != -1)
 			{
 				Product product3 = menu.getMenu()[this.cboItem3.getSelectedIndex()];
 				order.setOrderProduct(product3, aQty3);
-				this.txtLineTotal3.setText(String.valueOf(order.getLineTotal(2)));
+				if (this.cboItem1.getSelectedIndex() != -1 && this.cboItem2.getSelectedIndex() != -1)
+				{
+					String formatedLineTotal = nf.format(order.getLineTotal(2));
+					this.txtLineTotal3.setText(formatedLineTotal);
+				}
+				else
+				{
+					if (this.cboItem2.getSelectedIndex() != -1 || this.cboItem1.getSelectedIndex() != -1)
+					{
+						String formatedLineTotal = nf.format(order.getLineTotal(1));
+						this.txtLineTotal3.setText(formatedLineTotal);
+					}
+					else
+					{
+						if (this.cboItem2.getSelectedIndex() == -1 && this.cboItem1.getSelectedIndex() == -1)
+						{
+							String formatedLineTotal = nf.format(order.getLineTotal(0));
+							this.txtLineTotal3.setText(formatedLineTotal);
+						}
+					}
+				}
 			}
 
 			jz.addOrder(order);
 			jz.setClerk(orderID);
 			jz.processOrder(orderID);
 
-			this.txtSubtotal.setText(String.valueOf(order.getSubTotal()));
-			this.txtTax.setText(String.valueOf(order.getTax()));
-			this.txtTotal.setText(String.valueOf(order.getTotal()));
+			String formatedSubTotal = nf.format(order.getSubTotal());
+			this.txtSubtotal.setText(formatedSubTotal);
+
+			String formatedTax = nf.format(order.getTax());
+			this.txtTax.setText(formatedTax);
+
+			String formatedTotal = nf.format(order.getTotal());
+			this.txtTotal.setText(formatedTotal);
 			// TODO
 			// INSTEAD OF GET RECEIPT YOU NEED TO GREATE METHODS THAT
 			// WILL RETURN INDIVIDUAL VALUES
@@ -525,7 +558,7 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 			// DISPLAY THESE RESULTS IN THE APPROPRIATE BOXES INSTEAD OF THE
 			// JOPTIONPANE BOX
 
-			JOptionPane.showMessageDialog(null, jz.getReceipt(orderID));
+			// JOptionPane.showMessageDialog(null, jz.getReceipt(orderID));
 			JOptionPane.showMessageDialog(null, "Order " + orderID + " was Saved");
 		}
 
@@ -562,9 +595,6 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 			txtZip.setText(foundCustomer.getZip());
 			txtPhone.setText(foundCustomer.getPhone());
 			txtMemberShip.setText(foundCustomer.getMemberShip());
-
-			// Example how to set the value of a combobox
-			System.out.println(foundOrder.getOrderProduct(0));
 			try
 			{
 				cboItem1.setSelectedItem(foundOrder.getOrderProduct(0));
@@ -585,18 +615,19 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 			}
 			try
 			{
-				txtLineTotal1.setText(String.valueOf(foundOrder.getLineTotal(0)));
-				txtLineTotal2.setText(String.valueOf(foundOrder.getLineTotal(1)));
-				txtLineTotal3.setText(String.valueOf(foundOrder.getLineTotal(2)));
+				NumberFormat nf = NumberFormat.getCurrencyInstance();
+				txtLineTotal1.setText(nf.format((foundOrder.getLineTotal(0))));
+				txtLineTotal2.setText(nf.format((foundOrder.getLineTotal(1))));
+				txtLineTotal3.setText(nf.format((foundOrder.getLineTotal(2))));
 			}
 			catch (Exception e)
 			{
 
 			}
-
-			txtSubtotal.setText(String.valueOf(foundOrder.getSubTotal()));
-			txtTax.setText(String.valueOf(foundOrder.getTax()));
-			txtTotal.setText(String.valueOf(foundOrder.getTotal()));
+			NumberFormat nf = NumberFormat.getCurrencyInstance();
+			txtSubtotal.setText(nf.format((foundOrder.getSubTotal())));
+			txtTax.setText(nf.format((foundOrder.getTax())));
+			txtTotal.setText(nf.format((foundOrder.getTotal())));
 		}
 		else
 		{

@@ -179,9 +179,11 @@ public class Order
 	{
 		// Select the LineItem from the ArrayList
 		LineItem selectedItem = lineItems.get(iLine);
+		double LineTotal = 0;
 
 		// Get the total for that item
-		return selectedItem.getJvzLineTotal();
+		LineTotal = selectedItem.getJvzLineTotal();
+		return LineTotal;
 	}
 
 }

@@ -1,3 +1,5 @@
+import java.text.NumberFormat;
+
 public class Menu
 {
 	private Product menuItems[];
@@ -51,7 +53,8 @@ public class Menu
 
 	public String getPrice(int anIndex)
 	{
+		NumberFormat nf = NumberFormat.getCurrencyInstance();
 		Product selectedProduct = menuItems[anIndex];
-		return String.valueOf(selectedProduct.getPrice());
+		return nf.format((selectedProduct.getPrice()));
 	}
 }

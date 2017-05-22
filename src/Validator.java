@@ -102,7 +102,7 @@ public class Validator
 	
 	public static String getPrice(String aPrice)
 	{
-		if(aPrice.matches("-?\\d+(\\.\\d*)?") == false)
+		if(aPrice.matches("(\\$)?\\d+(\\.\\d*)?") == false)
 		{
 			errorMessage += "Price is not valid\n";
 		}
