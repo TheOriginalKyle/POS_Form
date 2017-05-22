@@ -27,6 +27,87 @@ public class Validator
 		}
 		return aFirstName;
 	}
+	
+	public static String getLastName(String aLastName)
+	{
+		if (aLastName.length() == 0)
+		{
+			errorMessage += "Last Name cannot be blank\n";
+		}
+		return aLastName;
+	}
+	
+	public static String getMemberShip(String aMemberShip)
+	{
+		if(aMemberShip.length() == 0)
+		{
+			errorMessage += "MemberShip cannot be blank\n";
+		}
+		return aMemberShip;
+	}
+	
+	public static String getPhone(String aPhone)
+	{
+		if(aPhone.length() == 0)
+		{
+			errorMessage += "Phone cannot be blank\n";
+		}
+		return aPhone;
+	}
+	
+	public static String getStreet(String aStreet)
+	{
+		if(aStreet.length() == 0)
+		{
+			errorMessage += "Street cannot be blank\n";
+		}
+		return aStreet;
+	}
+	
+	public static String getCity(String aCity)
+	{
+		if(aCity.length() == 0)
+		{
+			errorMessage += "City cannot be blank\n";
+		}
+		return aCity;
+	}
+	
+	public static String getState(String aState)
+	{
+		if(aState.length() == 0)
+		{
+			errorMessage += "State cannot be blank\n";
+		}
+		return aState;
+	}
+	
+	public static String getZip(String aZip)
+	{
+		if(aZip.length() == 0)
+		{
+			errorMessage += "Zip cannot be blank\n";
+		}
+		return aZip;
+	}
+	
+	public static String getQty(String aQty)
+	{
+		if(aQty.matches("\\d+?") == false)
+		{
+			errorMessage += "Quantity is not a vaild whole number\n";
+		}
+		return aQty;
+	}
+	
+	public static String getPrice(String aPrice)
+	{
+		if(aPrice.matches("-?\\d+(\\.\\d*)?") == false)
+		{
+			errorMessage += "Price is not valid\n";
+		}
+		return aPrice;
+	}
 
 	// method to return the error message
 	public static String getError()
@@ -38,6 +119,12 @@ public class Validator
 	public static void clearError()
 	{
 		errorMessage = "";
+	}
+	
+	//method to add an error message
+	public static void setError(String anError)
+	{
+		errorMessage += anError;
 	}
 
 }

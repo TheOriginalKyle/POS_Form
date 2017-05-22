@@ -1,6 +1,7 @@
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import javax.swing.JOptionPane;
@@ -26,6 +27,7 @@ public class JavaZon
 
 	public void addOrder(Order anOrder)
 	{
+		jvzOrder.put(anOrder.getOrderID(), anOrder);
 		// TODO: Code to add an order to the HashMap
 		// USE THE jvzOrder object and add a new order to the hashmap
 		// you need to use the orderid and the order object (anOrder)
