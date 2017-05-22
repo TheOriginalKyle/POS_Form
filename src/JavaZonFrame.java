@@ -331,8 +331,8 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 		{
 			resetForm();
 		}
-		
-		if(e.getActionCommand() == "List")
+
+		if (e.getActionCommand() == "List")
 		{
 			printOrders();
 		}
@@ -429,7 +429,7 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 			String TheQty = String.valueOf(aQty1);
 			Validator.getQty(TheQty);
 		}
-		
+
 		if (this.cboItem2.getSelectedIndex() != -1)
 		{
 			try
@@ -444,7 +444,7 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 			String TheQty = String.valueOf(aQty2);
 			Validator.getQty(TheQty);
 		}
-		
+
 		if (this.cboItem3.getSelectedIndex() != -1)
 		{
 			try
@@ -459,17 +459,17 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 			String TheQty = String.valueOf(aQty3);
 			Validator.getQty(TheQty);
 		}
-		
+
 		if (this.cboItem1.getSelectedIndex() != -1)
 		{
 			Validator.getPrice(txtPrice1.getText());
 		}
-		
+
 		if (this.cboItem2.getSelectedIndex() != -1)
 		{
 			Validator.getPrice(txtPrice2.getText());
 		}
-		
+
 		if (this.cboItem3.getSelectedIndex() != -1)
 		{
 			Validator.getPrice(txtPrice3.getText());
@@ -501,20 +501,22 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 			{
 				Product product2 = menu.getMenu()[this.cboItem2.getSelectedIndex()];
 				order.setOrderProduct(product2, aQty2);
-				this.txtLineTotal2.setText(String.valueOf(order.getLineTotal(0)));
+				this.txtLineTotal2.setText(String.valueOf(order.getLineTotal(1)));
 			}
 			if (this.cboItem3.getSelectedIndex() != -1)
 			{
 				Product product3 = menu.getMenu()[this.cboItem3.getSelectedIndex()];
 				order.setOrderProduct(product3, aQty3);
-				this.txtLineTotal3.setText(String.valueOf(order.getLineTotal(0)));
+				this.txtLineTotal3.setText(String.valueOf(order.getLineTotal(2)));
 			}
 
 			jz.addOrder(order);
 			jz.setClerk(orderID);
 			jz.processOrder(orderID);
-			
-			
+
+			this.txtSubtotal.setText(String.valueOf(order.getSubTotal()));
+			this.txtTax.setText(String.valueOf(order.getTax()));
+			this.txtTotal.setText(String.valueOf(order.getTotal()));
 			// TODO
 			// INSTEAD OF GET RECEIPT YOU NEED TO GREATE METHODS THAT
 			// WILL RETURN INDIVIDUAL VALUES
@@ -523,7 +525,7 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 			// DISPLAY THESE RESULTS IN THE APPROPRIATE BOXES INSTEAD OF THE
 			// JOPTIONPANE BOX
 
-			// JOptionPane.showMessageDialog(null, jz.getReceipt(orderID));
+			JOptionPane.showMessageDialog(null, jz.getReceipt(orderID));
 			JOptionPane.showMessageDialog(null, "Order " + orderID + " was Saved");
 		}
 
@@ -555,20 +557,52 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 			txtFirstName.setText(foundCustomer.getFirstName());
 			txtLastName.setText(foundCustomer.getLastName());
 			txtStreet.setText(foundCustomer.getAddress());
-			String city = txtCity.getText();
-			String state = txtState.getText();
-			String zip = txtZip.getText();
-			String phone = txtPhone.getText();
-			String membership = txtMemberShip.getText();
+			txtCity.setText(foundCustomer.getCity());
+			txtState.setText(foundCustomer.getState());
+			txtZip.setText(foundCustomer.getZip());
+			txtPhone.setText(foundCustomer.getPhone());
+			txtMemberShip.setText(foundCustomer.getMemberShip());
 
 			// Example how to set the value of a combobox
-			this.cboItem3.setSelectedItem("VB");
+			System.out.println(foundOrder.getOrderProduct(0));
+			try
+			{
+				cboItem1.setSelectedItem(foundOrder.getOrderProduct(0));
+				cboItem2.setSelectedItem(foundOrder.getOrderProduct(1));
+				cboItem3.setSelectedItem(foundOrder.getOrderProduct(2));
+			}
+			catch (Exception e)
+			{
+			}
+			try
+			{
+				txtQty1.setValue(foundOrder.getOrderQuantity(0));
+				txtQty2.setValue(foundOrder.getOrderQuantity(1));
+				txtQty3.setValue(foundOrder.getOrderQuantity(2));
+			}
+			catch (Exception e)
+			{
+			}
+			try
+			{
+				txtLineTotal1.setText(String.valueOf(foundOrder.getLineTotal(0)));
+				txtLineTotal2.setText(String.valueOf(foundOrder.getLineTotal(1)));
+				txtLineTotal3.setText(String.valueOf(foundOrder.getLineTotal(2)));
+			}
+			catch (Exception e)
+			{
+
+			}
+
+			txtSubtotal.setText(String.valueOf(foundOrder.getSubTotal()));
+			txtTax.setText(String.valueOf(foundOrder.getTax()));
+			txtTotal.setText(String.valueOf(foundOrder.getTotal()));
 		}
 		else
 		{
 
 			JOptionPane.showMessageDialog(null, "Order Not Found");
-			;
+
 		}
 	}
 
@@ -607,9 +641,9 @@ public class JavaZonFrame extends javax.swing.JFrame implements ActionListener, 
 		txtState.setText("");
 		txtCity.setText("");
 		txtZip.setText("");
-		// txtQty1.setText("");
-		// txtQty2.setText("");
-		// txtQty3.setText("");
+		txtQty1.setValue(0);
+		txtQty2.setValue(0);
+		txtQty3.setValue(0);
 		txtPrice1.setText("");
 		txtPrice2.setText("");
 		txtPrice3.setText("");

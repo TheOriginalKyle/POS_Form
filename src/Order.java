@@ -49,6 +49,8 @@ public class Order
 
 		productCount++;
 		
+		LineItem aLineItem =  new LineItem(aProduct, aQty);
+		lineItems.add(aLineItem);
 		
 		// TODO
 		// Write the code to create a new line item
@@ -56,18 +58,46 @@ public class Order
 		// add that line item to the LineItems arraylist
 
 	}
+	
+	public String getOrderProduct(int iLine)
+	{
+
+
+		LineItem selectedItem = lineItems.get(iLine);
+		String result = selectedItem.getJvzProduct().getDescription();
+		return result;
+		
+	}
+	
+	public int getOrderQuantity(int iLine)
+	{
+		LineItem selectedItem = lineItems.get(iLine);
+		int result = selectedItem.getJvzQuantity();
+		return result;
+	}
+	
+	public int getNumberOfLineItems()
+	{
+		return lineItems.size();
+	}
 
 	public String getOrderID()
 	{
 		return orderID;
 	}
 
-	public void calcSubtotal()
+	public double calcSubtotal()
 	{
+		for(int i = 0; i < lineItems.size(); i++)
+		{
+			subtotal += lineItems.get(i).getJvzLineTotal();
+		}
+		
 		// TODO
 		// Write the code to calculate the subtotal for all items
 		// Loop through the lineItems arraylist
 		// add up the total from each line to the subtotal variable
+		return subtotal;
 
 	}
 
@@ -128,6 +158,16 @@ public class Order
 	public double getTotal()
 	{
 		return total;
+	}
+	
+	public double getSubTotal()
+	{
+		return subtotal;
+	}
+	
+	public double getTax()
+	{
+		return tax;
 	}
 
 	public Customer getCustomer()

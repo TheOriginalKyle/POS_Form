@@ -20,5 +20,10 @@ public class Customer extends Person
 
 		return result;
 	}
+	
+	public String getMemberShip()
+	{
+		return memberShipID;
+	}
 
 }

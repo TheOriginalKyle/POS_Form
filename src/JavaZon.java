@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+
 import javax.swing.JOptionPane;
 
 public class JavaZon
@@ -93,14 +95,16 @@ public class JavaZon
 		String result = "";
 		Order selectedOrder;
 		Customer selectedCustomer;
-		for(int i = 0; i < jvzOrder.size(); i++)
+		Set<String> keySet = jvzOrder.keySet();
+		Object[] yourOrders = keySet.toArray();
+		for(int i = 0; i < yourOrders.length; i++)
 		{
-			selectedOrder = jvzOrder.get(i);
+			selectedOrder = jvzOrder.get(yourOrders[i]);
 			selectedCustomer = selectedOrder.getCustomer();
 			result += "Order ID: " + selectedOrder.getOrderID() + ", ";
 			result += "Customer Name: " + selectedCustomer.getFirstName() + " ";
 			result += selectedCustomer.getLastName() + ", ";
-			result += selectedOrder.getTotal();
+			result += selectedOrder.getTotal() + "\n";
 		}
 		// TODO
 		// For Loop through the orders in the HashMap
@@ -132,7 +136,7 @@ public class JavaZon
 
 	public Order findOrder(String anID)
 	{
-		Order selectedOrder = null;
+		Order selectedOrder = jvzOrder.get(anID);
 
 		// TODO
 		// check if the HashMap contains the order
@@ -147,6 +151,7 @@ public class JavaZon
 	{
 		// TODO
 		// Clear the hashmap of all orders
+		jvzOrder.clear();
 
 	}
 }
